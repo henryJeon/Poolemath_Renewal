@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>풀이수학</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" /> 
+    <link rel="stylesheet" type="text/css" media="screen" href="css/common.css" />
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-gray me-1" data-bs-toggle="modal" data-bs-target="#exampleModal">패스워드 이메일인증</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header mx-4">
+                <img class="pt-4" src="img/ic_logo_modal.svg">
+                <img type="button" class="float-end" data-bs-dismiss="modal" aria-label="Close" src="img/btn_close.svg">
+            </div>
+            <div class="modal-body">
+                <p>가입시 등록한 이메일을 입력해주세요.</p>
+            <div class="mb-2"><input type="email" value="id@gmail.com" class="modal-input" id="textMail" placeholder="이메일주소" disabled></div>
+            <div class="info">
+                <div style="display: show;">
+                    <img src="img/ic_mail.svg"><br><br>
+                    인증번호가 이메일로 전송되었습니다.<br>
+                    확인 후 제한시간안에 인증번호를 입력해 주세요.
+                </div>
+            </div>
+            <div>
+                <input type="number" class="modal-input-sm" id="textkey" placeholder="인증번호6자리 입력" maxlength="10">
+                <span id="CountDownSpan" name="CountDownSpan" class="caption-b" style="display: block; padding-top: 16px;">00:00</span>
+                <p class="caption-o pt-2" id="spankey" style="clear: both;"></p>
+            </div>
+            <div class="d-grid mt-2 pt-3 border-dot">
+                <div class="row">
+                    <button type="button" class="btn btn-secondary btn-modal-02" data-bs-dismiss="modal" aria-label="Close">취소</button>
+                    <button type="button" class="btn btn-orange btn-modal-02" onclick="nextStep()">다음</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://www.poolemath.com/media/js/jquery-2.1.1.js"></script>
+    <script src="https://www.poolemath.com/media/js/bootstrap.min.js"></script>
+    <script src="https://www.poolemath.com/media/js/rsaenc.js"></script>
+
+    <script type="text/javascript">
+        var clickData = 0
+        var mobileClickData = 0
+        $(function(){
+            $("#textkey").keyup(function(){
+                var keyLength = $("#textkey").val().length
+                if((keyLength>6)){
+                  $("#spankey").html("인증번호 6자리를 정확하게 입력하시기 바랍니다.")
+                  $("#textkey").val("")
+                  return false
+                }
+                if((keyLength==6)){
+                  $("#spankey").html("")
+                }
+                if(event.keyCode == 13){
+                    nextStep()
+                }
+            })
+            $("#Mobiletextkey").keyup(function(){
+                var keyLength = $("#Mobiletextkey").val().length
+                if((keyLength>6)){
+                  $("#Mobilespankey").html("인증번호가 일치하지 않습니다.")
+                  $("#Mobiletextkey").val("")
+                  return false
+                }
+                if((keyLength==6)){
+                  $("#Mobilespankey").html("")
+                }
+                if(event.keyCode == 13){
+                    MobilenextStep()
+                }
+            })
+        })
+      
+          function countdown( elementName, minutes, seconds ){
+            var element, endTime, hours, mins, msLeft, time
+      
+          function twoDigits( n ){return (n <= 9 ? "0" + n : n)}
+      
+          function updateTimer(){
+              msLeft = endTime - (+new Date)
+              if ( msLeft < 1000 ) {
+                if(elementName == "CountDownSpan"){
+                    element.innerHTML = "0:00"
+                    alert("인증시간이 만료되었습니다.")
+                    $("#keybtn").val("인증번호 재발송")
+                    $("#keybtn").attr("disabled",false)
+                    $("#textkey").attr("disabled","disabled")
+                    clickData = 0
+                }
+      
+                if(elementName == "MobileCountDownSpan"){
+                  element.innerHTML = "0:00"
+                  alert("인증시간이 만료되었습니다.")
+                  $("#Mobilekeybtn").val("인증번호 재발송")
+                  $("#Mobilekeybtn").attr("disabled",false)
+                  $("#Mobiletextkey").attr("disabled","disabled")
+                  mobileClickData = 0
+                }
+              } else {
+                  time = new Date( msLeft )
+                  hours = time.getUTCHours()
+                  mins = time.getUTCMinutes()
+                  element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() )
+                  setTimeout( updateTimer, time.getUTCMilliseconds() + 500 )
+              }
+          }
+              element = document.getElementById( elementName )
+              endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500
+              updateTimer()
+          }
+      
+        function sendMailKey(){
+          clickData = 1
+          $.ajax({
+                url : 'https://www.poolemath.com/api/v1/auth/register/findPW/sendEmail',
+                type    : 'POST',
+                dataType : 'json',
+                json : true,
+                data : {
+                  userMail : $("#userMail").val()
+                },
+                success : function(data){
+                  countdown( "CountDownSpan", 3, 0)
+                  $("#keybtn").attr("disabled", "disabled")
+                  $("#textkey").attr("disabled",false)
+                  alert('가입시 사용한 이메일 주소로 인증번호가 전송되었습니다.');
+                },
+                error   : function(){
+                    alert('이메일 전송에 실패하였습니다.\n다시 시도해주시기 바랍니다.');
+                } 
+            })
+        }
+      
+        function MobilesendMailKey(){
+          mobileClickData = 1
+          $.ajax({
+                url : 'https://www.poolemath.com/api/v1/auth/register/findPW/sendEmail',
+                type    : 'POST',
+                dataType : 'json',
+                json : true,
+                data : {
+                  userMail : $("#MobileuserMail").val()
+                },
+                success : function(data){
+                  countdown( "MobileCountDownSpan", 3, 0)
+                  $("#Mobilekeybtn").attr("disabled", "disabled")
+                  $("#Mobiletextkey").attr("disabled",false)
+                },
+                error   : function(){
+                    alert("오류")
+                } 
+            })
+        }
+      
+        function nextStep(){                //WEB 다음단계
+          if(clickData == 1){
+            if($("#textkey").val() != ""){
+              $.ajax({
+                  url : 'https://www.poolemath.com/api/v1/auth/register/findPW/authNumberCheck',
+                  type    : 'POST',
+                  dataType : 'json',
+                  json : true,
+                  data : {
+                    UserKey : $("#textkey").val()
+                  },
+                  success : function(data){
+                      console.log(data)
+                      if(data == true){
+                        location.href = "/findPW/reset"
+                      }
+                      if(data == false){
+                        alert("인증번호가 일치하지 않습니다.")
+                      }
+                  },
+                  error   : function(){
+                      alert("오류")
+                  } 
+              })
+            }else{
+              alert("인증번호를 입력하시기 바랍니다.")
+            }
+          }else{
+            alert("인증번호를 발급하기 바랍니다.")
+          }
+        }
+      
+        function MobilenextStep(){                //Mobile 다음단계
+          if(mobileClickData == 1){
+            if($("#Mobiletextkey").val() != ""){
+              $.ajax({
+                  url : 'https://www.poolemath.com/api/v1/auth/register/findPW/authNumberCheck',
+                  type    : 'POST',
+                  dataType : 'json',
+                  json : true,
+                  data : {
+                    UserKey : $("#Mobiletextkey").val()
+                  },
+                  success : function (data) {
+                      console.log(data)
+                      if(data == true){
+                        location.href = "/findPW/reset"
+                      }
+                      if(data == false){
+                        alert("인증번호가 일치하지 않습니다.")
+                      }
+                  },
+                  error   : function(){
+                      alert("오류")
+                  } 
+              })
+            }else{
+              alert("인증번호를 입력하시기 바랍니다.")
+            }
+          }else{
+            alert("인증번호를 발급하기 바랍니다.")
+          }
+        }
+      </script>
+  </body>
+</html>

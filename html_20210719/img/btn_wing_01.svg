@@ -1,0 +1,21 @@
+<svg id="wing_menu_01" data-name="wing menu 01" xmlns="http://www.w3.org/2000/svg" width="80" height="140" viewBox="0 0 80 140">
+  <g id="bg" fill="#fff" stroke="#58a9b2" stroke-width="1">
+    <path d="M13.333,0H66.667A13.333,13.333,0,0,1,80,13.333V100a40,40,0,0,1-40,40h0A40,40,0,0,1,0,100V13.333A13.333,13.333,0,0,1,13.333,0Z" stroke="none"/>
+    <path d="M13.445.5H66.555A12.945,12.945,0,0,1,79.5,13.445V100A39.5,39.5,0,0,1,40,139.5h0A39.5,39.5,0,0,1,.5,100V13.445A12.945,12.945,0,0,1,13.445.5Z" fill="none"/>
+  </g>
+  <text id="문제은행_바로가기" data-name="문제은행
+바로가기" transform="translate(40 31)" fill="#14828e" font-size="14" font-family="GmarketSansMedium, Gmarket Sans"><tspan x="-26.936" y="0">문제은행</tspan><tspan x="-26.936" y="16">바로가기</tspan></text>
+  <g id="btn_go_login" data-name="btn go login" transform="translate(-1632 -772)">
+    <circle id="cycle" cx="30" cy="30" r="30" transform="translate(1642 842)" fill="#14828e"/>
+    <text id="go" transform="translate(1672 888)" fill="#fff" font-size="12" font-family="GmarketSansMedium, Gmarket Sans" letter-spacing="0.025em"><tspan x="-11.424" y="0">GO</tspan></text>
+    <g id="ic_cap" transform="translate(1642 840)">
+      <path id="패스_185" data-name="패스 185" d="M135.722,255.72l2.477,10.466a36.4,36.4,0,0,0,11.618,1.694c9.09,0,16.459-2.6,16.459-5.809v-5.847Z" transform="translate(-119.817 -234.716)" fill="#5d5360"/>
+      <path id="패스_186" data-name="패스 186" d="M115.552,200.512c0,1.608,1.851,3.062,4.841,4.114v-3.52a2.9,2.9,0,0,1,4.039-2.674l2.418,1.026a13.309,13.309,0,0,0,3.8,1.032,12.59,12.59,0,0,0,6.279-.928l11.543-4.9V185.99H115.552Z" transform="translate(-102.011 -173.198)" fill="#4b3f4e"/>
+      <path id="패스_187" data-name="패스 187" d="M62.661,89.648,37.583,79.009a10.649,10.649,0,0,0-8.319,0L4.185,89.648a1.287,1.287,0,0,0-.307.183l.307,1.262,25.079,10.64a10.65,10.65,0,0,0,8.319,0l25.079-10.64.308-1.261a1.287,1.287,0,0,0-.308-.184Z" transform="translate(-3.424 -78.163)" fill="#6f6571"/>
+      <path id="패스_188" data-name="패스 188" d="M59.546,177.737,34.159,188.508a10.65,10.65,0,0,1-8.319,0L.454,177.737a1.251,1.251,0,0,0,.307,2.117l25.079,10.64a10.65,10.65,0,0,0,8.319,0l25.079-10.64A1.251,1.251,0,0,0,59.546,177.737Z" transform="translate(0 -165.952)" fill="#5d5360"/>
+      <path id="패스_189" data-name="패스 189" d="M109.249,222.348H107.29V186.625a1.92,1.92,0,0,1,1.216-1.782l16.039-6.495.746,1.781-16.039,6.495Z" transform="translate(-98.29 -166.347)" fill="#ffd064"/>
+      <path id="패스_190" data-name="패스 190" d="M101.028,367.749c-1.1,0-2,.672-2,1.5V373c0,.414.448.75,1,.75h2c.552,0,1-.336,1-.75v-3.75C103.028,368.421,102.133,367.749,101.028,367.749Z" transform="translate(-91.028 -315.749)" fill="#ffe07d"/>
+      <ellipse id="타원_19" data-name="타원 19" cx="6" cy="4" rx="6" ry="4" transform="translate(24 7)" fill="#857e87"/>
+    </g>
+  </g>
+</svg>

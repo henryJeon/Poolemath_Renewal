@@ -1,0 +1,5 @@
+<svg id="ic_tree_con_end" xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24">
+  <rect id="l_list_ver" data-name="l list ver" width="1" height="24" fill="#ccc"/>
+  <rect id="l_list_hor" data-name="l list hor" width="20" height="1" transform="translate(1 11)" fill="#ccc"/>
+  <rect id="l_list_ver-2" data-name="l list ver" width="1" height="12" transform="translate(0 12)" fill="#fefefe"/>
+</svg>

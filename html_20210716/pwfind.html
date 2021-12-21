@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>풀이수학</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" /> 
+    <link rel="stylesheet" type="text/css" media="screen" href="css/common.css" />
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-gray me-1" data-bs-toggle="modal" data-bs-target="#exampleModal">패스워드찾기</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header mx-4">
+                <img class="pt-4" src="img/ic_logo_modal.svg">
+                <img type="button" class="float-end" data-bs-dismiss="modal" aria-label="Close" src="img/btn_close.svg">
+            </div>
+            <div class="modal-body">
+                <p>가입시 등록한 이메일을 입력해주세요.</p>
+            <div class="mb-2"><input type="email" class="modal-input" id="textMail" placeholder="이메일주소"></div> 
+            <div class="mt-1"><p class="caption-o" id="spanMail"></p></div>
+            <div class="info">
+                <div style="display: show;">
+                    <img src="img/ic_email_fail.svg"><br><br>
+                    입력하신 이메일 주소로 등록된 정보를 찾을 수<br>없습니다. 확인 후 다시 입력해 주세요.
+                </div>
+            </div>
+            <div class="caption-b">
+                <p>※ 가입시 등록한 이메일이 기억나지 않으시면 풀이수학 고객센터(02-2664-2004)로 연락부탁드립니다.</p>
+            </div>
+            <div class="d-grid pt-3 border-dot">
+                <div class="row">
+                    <button type="button" class="btn btn-secondary btn-modal-02" data-bs-dismiss="modal" aria-label="Close">취소</button>
+                    <button type="button" class="btn btn-orange btn-modal-02" onclick="nextStep()">다음</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://www.poolemath.com/media/js/jquery-2.1.1.js"></script>
+    <script src="https://www.poolemath.com/media/js/bootstrap.min.js"></script>
+    <script src="https://www.poolemath.com/media/js/rsaenc.js"></script>
+
+    <script type="text/javascript">
+        var mailChk = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+            $(function(){
+                /****************web****************/
+                $("#textMail").keyup(function(){
+                    if(!mailChk.test($("#textMail").val())){
+                        $("#spanMail").html("이메일 형식이 올바르지 않습니다.")
+                    }else{
+                        $("#spanMail").html("")
+                    }
+                    if(event.keyCode == 13){
+                        nextStep()
+                    }
+                
+                })
+                /****************mobile****************/
+                $("#MobiletextMail").keyup(function(){
+                    if(!mailChk.test($("#MobiletextMail").val())){
+                        $("#MobilespanMail").html("이메일 형식이 올바르지 않습니다.")
+                    }else{
+                        $("#MobilespanMail").html("")
+                    }
+                    if(event.keyCode == 13){
+                        MobilenextStep()
+                    }
+                })
+                
+            })
+            function nextStep(){
+                if(!mailChk.test($("#textMail").val())){
+                    $("#textMail").focus()
+                    return false
+                }else{
+                    $.ajax({
+                        url : 'https://www.poolemath.com/api/v1/auth/register/findPW/idCheck',
+                        type    : 'POST',
+                        dataType : 'json',
+                        json : true,
+                        data : {
+                            CheckID : $("#textMail").val()
+                        },
+                        success : function(data){
+                            if (data.IsUnique == false) {
+                                location.href = "/findPW/mailConfirm"
+                            } else {
+                                location.href = "/findPW/failed"
+                            }
+                        },
+                        error   : function(){
+                            alert("오류")
+                        } 
+                    })
+                }
+            }
+        
+            function MobilenextStep(){
+                if(!mailChk.test($("#MobiletextMail").val())){
+                    $("#MobilespanMail").focus()
+                    return false
+                }else{
+                    $.ajax({
+                        url : 'https://www.poolemath.com/api/v1/auth/register/findPW/idCheck',
+                        type    : 'POST',
+                        dataType : 'json',
+                        json : true,
+                        data : {
+                            CheckID : $("#MobiletextMail").val()
+                        },
+                        success : function(data){
+                            if (data.IsUnique == false) {
+                                location.href = "/findPW/mailConfirm"
+                             }else {
+                                location.href = "/findPW/failed"
+                            }
+                        },
+                        error   : function(){
+                            alert("오류")
+                        } 
+                    })
+                }
+            }
+        </script>
+  </body>
+</html>

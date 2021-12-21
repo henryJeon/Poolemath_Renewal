@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>풀이수학</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.css" /> 
+    <link rel="stylesheet" type="text/css" media="screen" href="css/common.css" />
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-gray me-1" data-bs-toggle="modal" data-bs-target="#exampleModal">비밀번호 재설정</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header mx-4">
+                    <img class="pt-4" src="img/ic_logo_modal.svg">
+                    <img type="button" class="float-end" data-bs-dismiss="modal" aria-label="Close" src="img/btn_close.svg">
+                </div>
+                <div class="modal-body">
+                    <p class="title">비밀번호 재설정</p>
+                    <p class="title-sub">새로운 비밀번호를 입력해주세요.</p>
+                    <div class="mb-1"><input type="password" class="modal-input" name="pw-t" placeholder="신규비밀번호"></div>
+                    <div class="mt-1"><p class="caption-o mt-1" id="pw-text"></p></div>
+                    <div class="mb-1"><input type="password" class="modal-input" name="pw-t1" placeholder="신규비밀번호 재입력" onkeypress="if(event.keyCode == 13){nextStep()}"></div>   
+                    <div class="mt-1"><p class="caption-o" id="pw-text1"></p></div>
+                    <div class="d-grid mt-5 pt-3 border-dot">
+                        <div class="row">
+                            <button type="button" class="btn btn-secondary btn-modal-02" data-bs-dismiss="modal" aria-label="Close">취소</button>
+                            <button type="button" class="btn btn-orange btn-modal-02" onclick="nextStep()">다음</button>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </div>
+    </div>
+
+    <script src="https://www.poolemath.com/media/js/jquery-2.1.1.js"></script>
+    <script src="https://www.poolemath.com/media/js/bootstrap.min.js"></script>
+    <script src="https://www.poolemath.com/media/js/rsaenc.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            /*웹 버전*/
+            $("#pw-t, #pw-t1").keyup(function(){
+            var pwLength = $("#pw-t").val().length 
+            var password = $("#pw-t").val()
+            var password1 = $("#pw-t1").val()
+            if(!(pwLength>=6)&&(pwLength<=15)){
+            $("#pw-text").html("비밀번호는 6~15이내로 입력하셔야 합니다.")
+            document.getElementById("pw-t").style.margin = "30px 0px 0px 0px"
+            }else{
+            $("#pw-text").html("")
+            document.getElementById("pw-t").style.margin = "45px 0px 0px 0px"
+            }
+            if(password1 != ""){
+            if(password1 != password){
+                $("#pw-text1").html("비밀번호가 일치하지 않습니다.")
+                document.getElementById("pw-t").style.margin = "30px 0px 0px 0px"
+            }else{
+                $("#pw-text1").html("")
+                document.getElementById("pw-t").style.margin = "45px 0px 0px 0px"
+            }
+            }
+            if($("#pw-t1").val() != password){
+            $("#pw-text1").html("비밀번호가 일치하지 않습니다.")
+            document.getElementById("pw-t").style.margin = "30px 0px 0px 0px"
+            }else{
+            $("#pw-text1").html("")
+            document.getElementById("pw-t").style.margin = "45px 0px 0px 0px"
+            }
+            if($("#pw-t1").val() == ""){
+            $("#pw-text1").html("비밀번호가 일치하지 않습니다.")
+            document.getElementById("pw-t").style.margin = "30px 0px 0px 0px"
+            }
+        })
+            /*모바일 버전*/
+        $("#M-pw-t, #M-pw-t1").keyup(function(){
+            var pwLength = $("#M-pw-t").val().length
+            var password = $("#M-pw-t").val()
+            var password1 = $("#M-pw-t1").val()
+            if(!(pwLength>=6)&&(pwLength<=15)){
+            $("#M-pw-text").html("비밀번호는 6~15이내로 입력하셔야 합니다.")
+            }else{
+            $("#M-pw-text").html("")
+            }
+            if(password1 != ""){
+            if(password1 != password){
+                $("#M-pw-text1").html("비밀번호가 일치하지 않습니다.")
+            }else{
+                $("#M-pw-text1").html("")
+            }
+            }
+            if($("#M-pw-t1").val() != password){
+            $("#M-pw-text1").html("비밀번호가 일치하지 않습니다.")
+            }else{
+            $("#M-pw-text1").html("")
+            }
+            if($("#M-pw-t1").val() == ""){
+            $("#M-pw-text1").html("비밀번호가 일치하지 않습니다.")
+            }
+        })
+        })
+
+        function nextStep(){
+        if($("#pw-t").val() == $("#pw-t1").val()){
+            if(($("#pw-t").val() != "" ) && ($("#pw-t1").val() != "")){
+            $.ajax({
+                url : 'https://www.poolemath.com/api/v1/auth/register/findPW/updatePW',
+                type    : 'POST',
+                dataType : 'json',
+                json : true,
+                data : {changedPW : $("#pw-t").val()},
+                success : function(data){
+                console.log(data)
+                location.href = "/findPW/complete"
+                },
+                error   : function(){
+                alert("오류")
+                } 
+            })
+            }
+        }else{
+            alert("비밀번호를 정확히 입력하시오")
+            return false
+        }
+        }
+        function MobilenextStep(){
+        if($("#M-pw-t").val() == $("#M-pw-t1").val()){
+            if(($("#M-pw-t").val() != "" ) && ($("#M-pw-t1").val() != "")){
+            $.ajax({
+                url : 'https://www.poolemath.com/api/v1/auth/register/findPW/updatePW',
+                type    : 'POST',
+                dataType : 'json',
+                json : true,
+                data : {
+                changedPW : $("#M-pw-t").val(),
+                },
+                success : function (data) {
+                if (data == 'true'){
+                    location.href = "/findPW/complete";
+                }
+                },
+                error   : function () {
+                alert('비밀번호 변경과정에서 오류가 발생하였습니다.');
+                } 
+            })
+            }
+        }else{
+            alert("비밀번호를 정확히 입력하시오");
+            return false
+        }
+        }
+    </script>
+  </body>
+</html>
